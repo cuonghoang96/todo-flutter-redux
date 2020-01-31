@@ -31,7 +31,7 @@ class TodoList extends StatelessWidget {
             border: todos.length != 0
                 ? Border.all(width: 1, color: Colors.black38)
                 : null,
-            borderRadius: BorderRadius.all(Radius.circular(12))),
+            borderRadius: BorderRadius.all(Radius.circular(8))),
         margin: EdgeInsets.fromLTRB(8, 0, 8, 8),
         child: ListView.separated(
           shrinkWrap: true,
