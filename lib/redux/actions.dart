@@ -45,3 +45,13 @@ class SelectTodoAction extends TodoAction {
   final String id;
   SelectTodoAction({@required this.id});
 }
+
+class RemoveTodoAction extends TodoAction {
+  final String id;
+  RemoveTodoAction({@required this.id});
+}
+
+class RemoveTodoSuccessAction extends TodoAction {
+  final String id;
+  RemoveTodoSuccessAction({@required this.id});
+}

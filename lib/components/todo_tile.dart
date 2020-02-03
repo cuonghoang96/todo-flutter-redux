@@ -7,6 +7,7 @@ class TodoTile extends StatelessWidget {
   final Key key;
   final TodoTapFunction onTap;
   final ToggleTodoFunction onToggle;
+  final RemoveTodoPressedFunction onRemove;
   final Todo todo;
 
   final TextStyle completedTextStyle = new TextStyle(
@@ -20,6 +21,7 @@ class TodoTile extends StatelessWidget {
     @required this.onTap,
     @required this.todo,
     @required this.onToggle,
+    @required this.onRemove,
   }) : super(key: key);
 
   @override
@@ -30,9 +32,19 @@ class TodoTile extends StatelessWidget {
         style: todo.completed ? completedTextStyle : null,
       ),
       onTap: () => onTap('${todo.id}'),
-        trailing: GestureDetector(
-          child: Icon(todo.completed ? Icons.check_box : Icons.check_box_outline_blank),
-          onTap: () => onToggle(todo),
+        trailing: Row(
+          children: <Widget>[
+            GestureDetector(
+              child: Icon(todo.completed ? Icons.check_box : Icons.check_box_outline_blank, size: 24,),
+              onTap: () => onToggle(todo),
+            ),
+            GestureDetector(
+              child: Icon(Icons.delete, color: Colors.red, size: 24,),
+              onTap: () => onRemove('${todo.id}'),
+            ),
+
+          ],
+          mainAxisSize: MainAxisSize.min ,
         )
     );
   }

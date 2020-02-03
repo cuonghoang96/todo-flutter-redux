@@ -67,3 +67,5 @@ typedef void ToggleTodoFunction(Todo todo);
 typedef void AddTodoPressedFunction(String text);
 
 typedef void SetVisibilityFilterFunction(VisibilityFilter filter);
+
+typedef void RemoveTodoPressedFunction(String id);

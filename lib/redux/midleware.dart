@@ -7,7 +7,7 @@ class TodoMiddleWare implements EpicClass<TodoState> {
   @override
   Stream<dynamic> call(Stream<dynamic> actions, EpicStore<TodoState> store) {
     // TODO: implement call
-    return combineEpics<TodoState>([addTodoEpic, getTodosEpic, toggleTodoEpic])(
+    return combineEpics<TodoState>([addTodoEpic, getTodosEpic, toggleTodoEpic, removeTodoEpic])(
         actions, store);
   }
 
@@ -40,6 +40,19 @@ class TodoMiddleWare implements EpicClass<TodoState> {
       var response = await TodoDatabase().toggleTodo(action.todo.copyWith(completed: !action.todo.completed));
       if (response == 1)
         return ToggleTodoSuccessAction(id: action.todo.id);
+      else
+        return null;
+    });
+  }
+
+  Stream<dynamic> removeTodoEpic(
+      Stream<dynamic> actions, EpicStore<TodoState> store) {
+    return actions
+        .where((action) => action is RemoveTodoAction)
+        .asyncMap((action) async {
+      var response = await TodoDatabase().removeTodo(action.id);
+      if (response == 1)
+        return RemoveTodoSuccessAction(id: action.id);
       else
         return null;
     });

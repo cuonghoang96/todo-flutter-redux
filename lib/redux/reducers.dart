@@ -11,6 +11,9 @@ Map<String, Todo> todosReducer(Map<String, Todo> state, TodoAction action) {
     state['${action.id}'] = todo.copyWith(completed: !todo.completed);
   }
 
+  if (action is RemoveTodoSuccessAction) {
+    state.remove(action.id);
+  }
   if (action is SetTodosAction) {
     return action.todos;
   }

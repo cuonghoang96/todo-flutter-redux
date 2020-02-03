@@ -11,7 +11,8 @@ class ViewModel extends Equatable {
   final List<Todo> todos;
   final TodoTapFunction onTodoTap;
   final ToggleTodoFunction onToggleTodo;
-  ViewModel({this.todos, this.onTodoTap, this.onToggleTodo});
+  final RemoveTodoPressedFunction onRemoveTodo;
+  ViewModel({this.todos, this.onTodoTap, this.onToggleTodo, this.onRemoveTodo});
 
   @override
   // TODO: implement props
@@ -19,6 +20,7 @@ class ViewModel extends Equatable {
         todos,
         onTodoTap,
         onToggleTodo,
+        onRemoveTodo,
       ];
 }
 
@@ -53,19 +55,21 @@ class VisibleTodoList extends StatelessWidget {
         store.dispatch(GetTodosAction());
       },
       converter: (store) => new ViewModel(
-          todos:
-              getVisibleTodos(store.state.todos, store.state.visibilityFilter),
-          onToggleTodo: (todo) => store.dispatch(
-                new ToggleTodoAction(todo: todo),
-              ),
-          onTodoTap: (id) {
-            store.dispatch(SelectTodoAction(id: id));
-            Navigator.pushNamed(context, DetailsScreen.routeName);
-          }),
+        todos: getVisibleTodos(store.state.todos, store.state.visibilityFilter),
+        onToggleTodo: (todo) => store.dispatch(
+          new ToggleTodoAction(todo: todo),
+        ),
+        onTodoTap: (id) {
+          store.dispatch(SelectTodoAction(id: id));
+          Navigator.pushNamed(context, DetailsScreen.routeName);
+        },
+        onRemoveTodo: (id) => store.dispatch(RemoveTodoAction(id: id)),
+      ),
       builder: (context, viewModel) => new TodoList(
         todos: viewModel.todos,
         onTodoTap: viewModel.onTodoTap,
         onToggleTodo: viewModel.onToggleTodo,
+          onRemoveTodo: viewModel.onRemoveTodo,
       ),
     );
   }

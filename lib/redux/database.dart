@@ -46,4 +46,9 @@ class TodoDatabase {
     });
   }
 
+  Future<int> removeTodo(String id) async {
+    // Get a reference to the database.
+    final Database db = await _database;
+    return db.delete('todos', where: "id = ?", whereArgs: [id]);
+  }
 }

@@ -7,11 +7,12 @@ class TodoList extends StatelessWidget {
   final List<Todo> todos;
   final TodoTapFunction onTodoTap;
   final ToggleTodoFunction onToggleTodo;
-
+  final RemoveTodoPressedFunction onRemoveTodo;
   TodoList({
     @required this.todos,
     @required this.onTodoTap,
     @required this.onToggleTodo,
+    @required this.onRemoveTodo,
   });
 
   @override
@@ -34,6 +35,7 @@ class TodoList extends StatelessWidget {
               todo: todos[index],
               onTap: onTodoTap,
               onToggle: onToggleTodo,
+              onRemove: onRemoveTodo,
             );
           },
           separatorBuilder: (BuildContext context, int index) =>
