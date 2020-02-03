@@ -47,20 +47,7 @@ class TodoApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => App(),
-        },
-        onGenerateRoute: (settings) {
-          // If you push the PassArguments route
-          if (settings.name == DetailsScreen.routeName) {
-            // Cast the arguments to the correct type: ScreenArguments.
-
-            // Then, extract the required data from the arguments and
-            // pass the data to the correct screen.
-            return MaterialPageRoute(
-              builder: (context) {
-                return DetailsScreen(title: settings.arguments);
-              },
-            );
-          }
+          DetailsScreen.routeName: (context) => DetailsScreen()
         },
       ),
     );

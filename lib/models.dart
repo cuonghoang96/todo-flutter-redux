@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 enum VisibilityFilter { SHOW_ALL, SHOW_ACTIVE, SHOW_COMPLETED }
 enum ButtonFilterPosition {LEFT, CENTER, RIGHT}
 
-class Todo {
+class Todo{
   final int id;
   final String text;
   final bool completed;
@@ -44,20 +44,25 @@ class Todo {
 }
 
 class TodoState {
-  final List<Todo> todos;
+  final Map<String, Todo> todos;
   final VisibilityFilter visibilityFilter;
+  final String selectedTodoId;
 
   const TodoState({
     @required this.todos,
     @required this.visibilityFilter,
+    @required this.selectedTodoId
   });
 
   TodoState.initialState()
-      : todos = <Todo>[],
-        visibilityFilter = VisibilityFilter.SHOW_ALL;
+      : todos = Map(),
+        visibilityFilter = VisibilityFilter.SHOW_ALL,
+        selectedTodoId = '';
 }
 
-typedef void TodoTapFunction(Todo todo);
+typedef void TodoTapFunction(String id);
+
+typedef void ToggleTodoFunction(Todo todo);
 
 typedef void AddTodoPressedFunction(String text);
 

@@ -1,61 +1,71 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/screens/detailsScreen.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_app/components/todo_list.dart';
 import 'package:flutter_app/models.dart';
 import 'package:flutter_app/redux/actions.dart';
+import 'package:equatable/equatable.dart';
 
-class ViewModel {
+class ViewModel extends Equatable {
   final List<Todo> todos;
   final TodoTapFunction onTodoTap;
-
-  ViewModel({
-    this.todos,
-    this.onTodoTap,
-  });
+  final ToggleTodoFunction onToggleTodo;
+  ViewModel({this.todos, this.onTodoTap, this.onToggleTodo});
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-          other is ViewModel &&
-              runtimeType == other.runtimeType &&
-              new ListEquality<Todo>().equals(todos, other.todos);
-
-  @override
-  int get hashCode => todos.hashCode;
+  // TODO: implement props
+  List<Object> get props => [
+        todos,
+        onTodoTap,
+        onToggleTodo,
+      ];
 }
 
 class VisibleTodoList extends StatelessWidget {
-  List<Todo> getVisibleTodos(List<Todo> todos, VisibilityFilter filter) {
+  List<Todo> getVisibleTodos(Map<String, Todo> todos, VisibilityFilter filter) {
+    var list = <Todo>[];
     switch (filter) {
       case VisibilityFilter.SHOW_ALL:
-        return todos;
+        todos.entries.forEach((e) => list.add(e.value));
+        break;
       case VisibilityFilter.SHOW_COMPLETED:
-        return todos.where((todo) => todo.completed).toList();
+        todos.entries.forEach((e) {
+          if (e.value.completed) list.add(e.value);
+        });
+        break;
       case VisibilityFilter.SHOW_ACTIVE:
-        return todos.where((todo) => !todo.completed).toList();
+        todos.entries.forEach((e) {
+          if (!e.value.completed) list.add(e.value);
+        });
+        break;
       default:
-        return <Todo>[];
+        break;
+        ;
     }
+    return list;
   }
 
   @override
   Widget build(BuildContext context) {
     return new StoreConnector<TodoState, ViewModel>(
-      distinct: true,
-      onInit: (store){
+      onInit: (store) {
         store.dispatch(GetTodosAction());
       },
       converter: (store) => new ViewModel(
-        todos: getVisibleTodos(
-            store.state.todos, store.state.visibilityFilter),
-        onTodoTap: (todo) => store.dispatch(
-          new ToggleTodoAction(todo: todo),
-        ),
-      ),
+          todos:
+              getVisibleTodos(store.state.todos, store.state.visibilityFilter),
+          onToggleTodo: (todo) => store.dispatch(
+                new ToggleTodoAction(todo: todo),
+              ),
+          onTodoTap: (id) {
+            store.dispatch(SelectTodoAction(id: id));
+            Navigator.pushNamed(context, DetailsScreen.routeName);
+          }),
       builder: (context, viewModel) => new TodoList(
         todos: viewModel.todos,
         onTodoTap: viewModel.onTodoTap,
+        onToggleTodo: viewModel.onToggleTodo,
       ),
     );
   }

@@ -12,7 +12,7 @@ class GetTodosAction extends TodoAction {
 }
 
 class SetTodosAction extends TodoAction {
-  final List<Todo> todos;
+  final Map<String, Todo> todos;
   SetTodosAction({@required this.todos});
 }
 
@@ -39,4 +39,9 @@ class ToggleTodoAction extends TodoAction {
 class ToggleTodoSuccessAction extends TodoAction {
   final int id;
   ToggleTodoSuccessAction({@required this.id});
+}
+
+class SelectTodoAction extends TodoAction {
+  final String id;
+  SelectTodoAction({@required this.id});
 }

@@ -6,21 +6,13 @@ import 'package:flutter_app/models.dart';
 class TodoList extends StatelessWidget {
   final List<Todo> todos;
   final TodoTapFunction onTodoTap;
+  final ToggleTodoFunction onToggleTodo;
 
   TodoList({
     @required this.todos,
     @required this.onTodoTap,
+    @required this.onToggleTodo,
   });
-
-  List<Widget> buildListItems() {
-    return todos
-        .map((todo) => new TodoTile(
-              key: new Key(todo.id.toString()),
-              todo: todo,
-              onTap: onTodoTap,
-            ))
-        .toList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +33,7 @@ class TodoList extends StatelessWidget {
               key: Key(todos[index].id.toString()),
               todo: todos[index],
               onTap: onTodoTap,
+              onToggle: onToggleTodo,
             );
           },
           separatorBuilder: (BuildContext context, int index) =>

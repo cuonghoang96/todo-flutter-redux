@@ -6,6 +6,7 @@ import 'package:flutter_app/models.dart';
 class TodoTile extends StatelessWidget {
   final Key key;
   final TodoTapFunction onTap;
+  final ToggleTodoFunction onToggle;
   final Todo todo;
 
   final TextStyle completedTextStyle = new TextStyle(
@@ -18,6 +19,7 @@ class TodoTile extends StatelessWidget {
     @required this.key,
     @required this.onTap,
     @required this.todo,
+    @required this.onToggle,
   }) : super(key: key);
 
   @override
@@ -27,13 +29,10 @@ class TodoTile extends StatelessWidget {
         todo.text,
         style: todo.completed ? completedTextStyle : null,
       ),
-      onTap: () {
-//        onTap(todo);
-        Navigator.pushNamed(context, DetailsScreen.routeName, arguments: todo.text);
-      },
+      onTap: () => onTap('${todo.id}'),
         trailing: GestureDetector(
           child: Icon(todo.completed ? Icons.check_box : Icons.check_box_outline_blank),
-          onTap: () => onTap(todo),
+          onTap: () => onToggle(todo),
         )
     );
   }

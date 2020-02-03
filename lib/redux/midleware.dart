@@ -28,7 +28,7 @@ class TodoMiddleWare implements EpicClass<TodoState> {
         .where((action) => action is GetTodosAction)
         .asyncMap((action) async {
       var response = await TodoDatabase().todos();
-      return SetTodosAction(todos: response);
+      return SetTodosAction(todos: Map.fromIterable(response, key: (e) => '${e.id}', value: (e) => e));
     });
   }
 
