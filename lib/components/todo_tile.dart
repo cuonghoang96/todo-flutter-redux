@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/screens/detailsScreen.dart';
 import 'package:flutter_app/models.dart';
 
 class TodoTile extends StatelessWidget {
@@ -17,8 +18,7 @@ class TodoTile extends StatelessWidget {
     @required this.key,
     @required this.onTap,
     @required this.todo,
-  })
-      : super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,14 @@ class TodoTile extends StatelessWidget {
         todo.text,
         style: todo.completed ? completedTextStyle : null,
       ),
-      onTap: () => onTap(todo),
+      onTap: () {
+//        onTap(todo);
+        Navigator.pushNamed(context, DetailsScreen.routeName, arguments: todo.text);
+      },
+        trailing: GestureDetector(
+          child: Icon(todo.completed ? Icons.check_box : Icons.check_box_outline_blank),
+          onTap: () => onTap(todo),
+        )
     );
   }
 }

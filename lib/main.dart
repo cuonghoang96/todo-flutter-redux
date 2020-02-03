@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/components/screens/detailsScreen.dart';
 import 'package:flutter_app/redux/database.dart';
 import 'package:flutter_app/redux/midleware.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -31,8 +32,8 @@ void main() async {
 
 class TodoApp extends StatelessWidget {
   final Store<TodoState> store = Store<TodoState>(todoAppReducer,
-      initialState: TodoState.initialState()
-  , middleware: [EpicMiddleware<TodoState>(TodoMiddleWare())]);
+      initialState: TodoState.initialState(),
+      middleware: [EpicMiddleware<TodoState>(TodoMiddleWare())]);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,24 @@ class TodoApp extends StatelessWidget {
         theme: new ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: new App(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => App(),
+        },
+        onGenerateRoute: (settings) {
+          // If you push the PassArguments route
+          if (settings.name == DetailsScreen.routeName) {
+            // Cast the arguments to the correct type: ScreenArguments.
+
+            // Then, extract the required data from the arguments and
+            // pass the data to the correct screen.
+            return MaterialPageRoute(
+              builder: (context) {
+                return DetailsScreen(title: settings.arguments);
+              },
+            );
+          }
+        },
       ),
     );
   }
