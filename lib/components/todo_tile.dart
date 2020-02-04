@@ -27,25 +27,48 @@ class TodoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new ListTile(
-      title: new Text(
-        todo.text,
-        style: todo.completed ? completedTextStyle : null,
-      ),
-      onTap: () => onTap('${todo.id}'),
+        title: new Text(
+          todo.text,
+          style: todo.completed ? completedTextStyle : null,
+        ),
+        onTap: () => onTap('${todo.id}'),
         trailing: Row(
           children: <Widget>[
             GestureDetector(
-              child: Icon(todo.completed ? Icons.check_box : Icons.check_box_outline_blank, size: 24,),
+              child: Container(
+                padding: EdgeInsets.all(8),
+                width: 40,
+                height: 40,
+                color: Colors.transparent,
+                child: Center(
+                  child: Icon(
+                    todo.completed
+                        ? Icons.check_box
+                        : Icons.check_box_outline_blank,
+                    size: 24,
+                  ),
+                ),
+              ),
               onTap: () => onToggle(todo),
             ),
             GestureDetector(
-              child: Icon(Icons.delete, color: Colors.red, size: 24,),
+              child: Container(
+                padding: EdgeInsets.all(8),
+                width: 40,
+                height: 40,
+                color: Colors.transparent,
+                child: Center(
+                  child: Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                    size: 24,
+                  ),
+                ),
+              ),
               onTap: () => onRemove('${todo.id}'),
             ),
-
           ],
-          mainAxisSize: MainAxisSize.min ,
-        )
-    );
+          mainAxisSize: MainAxisSize.min,
+        ));
   }
 }

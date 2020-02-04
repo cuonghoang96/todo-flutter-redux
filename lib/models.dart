@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
 enum VisibilityFilter { SHOW_ALL, SHOW_ACTIVE, SHOW_COMPLETED }
@@ -43,7 +44,7 @@ class Todo{
   int get hashCode => id.hashCode ^ text.hashCode ^ completed.hashCode;
 }
 
-class TodoState {
+class TodoState extends Equatable {
   final Map<String, Todo> todos;
   final VisibilityFilter visibilityFilter;
   final String selectedTodoId;
@@ -58,6 +59,24 @@ class TodoState {
       : todos = Map(),
         visibilityFilter = VisibilityFilter.SHOW_ALL,
         selectedTodoId = '';
+  @override
+  // TODO: implement props
+  List<Object> get props => [
+    todos,
+    visibilityFilter,
+    selectedTodoId
+  ];
+
+  TodoState copyWith(
+      {Map<String, Todo> todos,
+        VisibilityFilter visibilityFilter,
+        String selectedTodoId}) {
+    return TodoState(
+      todos: todos ?? this.todos,
+      visibilityFilter: visibilityFilter ?? this.visibilityFilter,
+      selectedTodoId: selectedTodoId ?? this.selectedTodoId
+    );
+  }
 }
 
 typedef void TodoTapFunction(String id);

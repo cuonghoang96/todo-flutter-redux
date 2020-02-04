@@ -8,7 +8,6 @@ abstract class TodoAction {
 }
 
 class GetTodosAction extends TodoAction {
-  GetTodosAction();
 }
 
 class SetTodosAction extends TodoAction {
