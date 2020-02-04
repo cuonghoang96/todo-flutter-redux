@@ -1,45 +1,41 @@
 import 'package:flutter_app/models.dart';
 import 'package:flutter_app/redux/actions.dart';
+import 'package:redux/redux.dart';
 
-Map<String, Todo> todosReducer(Map<String, Todo> state, TodoAction action) {
-  if (action is AddTodoSuccessAction) {
-    state['${action.todo.id}'] = action.todo;
-  }
+final Reducer<TodoState> todoReducers = combineReducers<TodoState>([
+  TypedReducer<TodoState, AddTodoSuccessAction>(_addTodoSuccessAcion),
+  TypedReducer<TodoState, ToggleTodoSuccessAction>(_toggleTodoSuccessAction),
+  TypedReducer<TodoState, RemoveTodoSuccessAction>(_removeTodoSuccessAction),
+  TypedReducer<TodoState, SetTodosAction>(_setTodosAction),
+  TypedReducer<TodoState, SelectTodoAction>(_selectTodoAction),
+  TypedReducer<TodoState, SetVisibilityFilterAction>(_setVisibilityFilterAction)
+]);
 
-  if (action is ToggleTodoSuccessAction) {
-    var todo = state['${action.id}'];
-    state['${action.id}'] = todo.copyWith(completed: !todo.completed);
-  }
-
-  if (action is RemoveTodoSuccessAction) {
-    state.remove(action.id);
-  }
-  if (action is SetTodosAction) {
-    return action.todos;
-  }
-  
-  return state;
+TodoState _addTodoSuccessAcion(TodoState state, AddTodoSuccessAction action) {
+  final todo = action.todo;
+  state.todos['${todo.id}'] = todo;
+  return state.copyWith(todos: state.todos);
 }
 
-String todoReducer(String state, TodoAction action) {
-  if(action is SelectTodoAction){
-    return action.id;
-  }
-  return state;
+TodoState _toggleTodoSuccessAction(TodoState state, ToggleTodoSuccessAction action) {
+  final todo = state.todos['${action.id}'];
+  state.todos['${action.id}'] = todo.copyWith(completed: !todo.completed);
+  return state.copyWith(todos: state.todos);
 }
 
-VisibilityFilter visibilityFilterReducer(VisibilityFilter state, action) {
-  if (action is SetVisibilityFilterAction) {
-    return action.filter;
-  }
-
-  return state;
+TodoState _removeTodoSuccessAction(TodoState state, RemoveTodoSuccessAction action) {
+  state.todos.remove(action.id);
+  return state.copyWith(todos: state.todos);
 }
 
-TodoState todoAppReducer(TodoState state, dynamic action) {
-  return new TodoState(
-    todos: todosReducer(state.todos, action),
-    selectedTodoId: todoReducer(state.selectedTodoId, action),
-    visibilityFilter: visibilityFilterReducer(state.visibilityFilter, action),
-  );
+TodoState _setTodosAction(TodoState state, SetTodosAction action) {
+  return state.copyWith(todos: action.todos);
+}
+
+TodoState _selectTodoAction(TodoState state, SelectTodoAction action) {
+  return state.copyWith(selectedTodoId: action.id);
+}
+
+TodoState _setVisibilityFilterAction(TodoState state, SetVisibilityFilterAction action) {
+  return state.copyWith(visibilityFilter: action.filter);
 }

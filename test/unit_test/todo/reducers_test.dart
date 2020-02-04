@@ -16,7 +16,7 @@ void main() {
       setUp(() {
         setVisibilityFilterAction =
             (VisibilityFilter visibilityFilter) {
-          return todoAppReducer(state, SetVisibilityFilterAction(filter: visibilityFilter));
+          return todoReducers(state, SetVisibilityFilterAction(filter: visibilityFilter));
         };
       });
       test("default", () {
@@ -32,7 +32,7 @@ void main() {
       var selectTodoAction;
       setUp((){
         selectTodoAction = (String selectedTodoId) {
-          return todoAppReducer(state, SelectTodoAction(id: selectedTodoId));
+          return todoReducers(state, SelectTodoAction(id: selectedTodoId));
         };
       });
       test("with empty", (){
@@ -48,7 +48,7 @@ void main() {
       var setTodosAction;
       setUp((){
         setTodosAction = (Map<String, Todo> todos) {
-          return todoAppReducer(state, SetTodosAction(todos: todos));
+          return todoReducers(state, SetTodosAction(todos: todos));
         };
       });
       test("with empty", (){
@@ -65,7 +65,7 @@ void main() {
       var addTodoSuccessAction;
       setUp((){
         addTodoSuccessAction = (Todo  todo) {
-          return todoAppReducer(state, AddTodoSuccessAction(todo: todo));
+          return todoReducers(state, AddTodoSuccessAction(todo: todo));
         };
       });
       test("has value", (){

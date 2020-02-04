@@ -31,7 +31,7 @@ void main() async {
 }
 
 class TodoApp extends StatelessWidget {
-  final Store<TodoState> store = Store<TodoState>(todoAppReducer,
+  final Store<TodoState> store = Store<TodoState>(todoReducers,
       initialState: TodoState.initialState(),
       middleware: [EpicMiddleware<TodoState>(TodoMiddleWare())]);
 
