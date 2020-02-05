@@ -7,8 +7,13 @@ class TodoMiddleWare implements EpicClass<TodoState> {
   @override
   Stream<dynamic> call(Stream<dynamic> actions, EpicStore<TodoState> store) {
     // TODO: implement call
-    return combineEpics<TodoState>([addTodoEpic, getTodosEpic, toggleTodoEpic, removeTodoEpic])(
-        actions, store);
+    return combineEpics<TodoState>([
+      addTodoEpic,
+      getTodosEpic,
+      toggleTodoEpic,
+      removeTodoEpic,
+      updateTodoEpic
+    ])(actions, store);
   }
 
   Stream<dynamic> addTodoEpic(
@@ -28,7 +33,9 @@ class TodoMiddleWare implements EpicClass<TodoState> {
         .where((action) => action is GetTodosAction)
         .asyncMap((action) async {
       var response = await TodoDatabase().todos();
-      return SetTodosAction(todos: Map.fromIterable(response, key: (e) => '${e.id}', value: (e) => e));
+      return SetTodosAction(
+          todos: Map.fromIterable(response,
+              key: (e) => '${e.id}', value: (e) => e));
     });
   }
 
@@ -37,7 +44,8 @@ class TodoMiddleWare implements EpicClass<TodoState> {
     return actions
         .where((action) => action is ToggleTodoAction)
         .asyncMap((action) async {
-      var response = await TodoDatabase().toggleTodo(action.todo.copyWith(completed: !action.todo.completed));
+      var response = await TodoDatabase()
+          .updateTodo(action.todo.copyWith(completed: !action.todo.completed));
       if (response == 1)
         return ToggleTodoSuccessAction(id: action.todo.id);
       else
@@ -53,6 +61,19 @@ class TodoMiddleWare implements EpicClass<TodoState> {
       var response = await TodoDatabase().removeTodo(action.id);
       if (response == 1)
         return RemoveTodoSuccessAction(id: action.id);
+      else
+        return null;
+    });
+  }
+
+  Stream<dynamic> updateTodoEpic(
+      Stream<dynamic> actions, EpicStore<TodoState> store) {
+    return actions
+        .where((action) => action is UpdateTodoAction)
+        .asyncMap((action) async {
+      var response = await TodoDatabase().updateTodo(action.todo);
+      if (response == 1)
+        return UpdateTodoSuccessAction(todo: action.todo);
       else
         return null;
     });

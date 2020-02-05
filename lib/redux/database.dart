@@ -27,9 +27,10 @@ class TodoDatabase {
     );
   }
 
-  Future<int> toggleTodo(Todo todo) async {
+  Future<int> updateTodo(Todo todo) async {
     // Get a reference to the database.
     final Database db = await _database;
+    print(todo.toMap());
     return db.update('todos', todo.toMap(), where: "id = ?", whereArgs: [todo.id]);
   }
 
@@ -42,6 +43,7 @@ class TodoDatabase {
         id: maps[i]['id'],
         text: maps[i]['text'],
         completed: maps[i]['completed'] == 1,
+        subtitle: maps[i]['subtitle']
       );
     });
   }

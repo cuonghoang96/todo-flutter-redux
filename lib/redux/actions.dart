@@ -54,3 +54,13 @@ class RemoveTodoSuccessAction extends TodoAction {
   final String id;
   RemoveTodoSuccessAction({@required this.id});
 }
+
+class UpdateTodoAction extends TodoAction {
+  final Todo todo;
+  UpdateTodoAction({@required this.todo});
+}
+
+class UpdateTodoSuccessAction extends TodoAction {
+  final Todo todo;
+  UpdateTodoSuccessAction({@required this.todo});
+}

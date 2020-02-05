@@ -20,12 +20,12 @@ void main() async {
     onCreate: (db, version) {
       // Run the CREATE TABLE statement on the database.
       return db.execute(
-        "CREATE TABLE todos(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, completed INTEGER)",
+        "CREATE TABLE todos(id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT, subtitle TEXT, completed INTEGER)",
       );
     },
     // Set the version. This executes the onCreate function and provides a
     // path to perform database upgrades and downgrades.
-    version: 2,
+    version: 3,
   ));
   runApp(new TodoApp());
 }

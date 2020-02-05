@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/containers/add_subtitle.dart';
 import 'package:flutter_app/models.dart';
 import 'package:flutter_app/redux/actions.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -45,19 +46,25 @@ class _DetailsState extends State<DetailsScreen> {
           title: Text(ViewModel.todo.text),
         ),
         body: Center(
-          child: FlatButton(
-            color: Colors.blue,
-            textColor: Colors.white,
-            padding: EdgeInsets.all(8.0),
-            splashColor: Colors.blueAccent,
-            onPressed: () {
-              ViewModel.onToggleTodo(ViewModel.todo);
-            },
-            child: Text(
-              ViewModel.todo.completed ? 'Complete' : 'Uncomplete',
-              style: TextStyle(fontSize: 20.0),
-            ),
-          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              AddSubtitleTodo(),
+              FlatButton(
+                color: Colors.blue,
+                textColor: Colors.white,
+                padding: EdgeInsets.all(8.0),
+                splashColor: Colors.blueAccent,
+                onPressed: () {
+                  ViewModel.onToggleTodo(ViewModel.todo);
+                },
+                child: Text(
+                  ViewModel.todo.completed ? 'Complete' : 'Uncomplete',
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+            ],
+          )
         ),
       ),
     );

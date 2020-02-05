@@ -8,18 +8,20 @@ class Todo{
   final int id;
   final String text;
   final bool completed;
-
+  final String subtitle;
   const Todo({
     @required this.id,
     @required this.text,
     this.completed = false,
+    this.subtitle = ""
   });
 
-  Todo copyWith({int id, String text, bool completed}) {
+  Todo copyWith({int id, String text, bool completed, String subtitle}) {
     return new Todo(
       id: id ?? this.id,
       text: text ?? this.text,
       completed: completed ?? this.completed,
+      subtitle: subtitle ?? this.subtitle
     );
   }
 
@@ -28,6 +30,7 @@ class Todo{
       'id': id,
       'text': text,
       'completed': completed,
+      'subtitle': subtitle,
     };
   }
 
@@ -38,6 +41,7 @@ class Todo{
           runtimeType == other.runtimeType &&
           id == other.id &&
           text == other.text &&
+          subtitle == other.subtitle &&
           completed == other.completed;
 
   @override
@@ -88,3 +92,5 @@ typedef void AddTodoPressedFunction(String text);
 typedef void SetVisibilityFilterFunction(VisibilityFilter filter);
 
 typedef void RemoveTodoPressedFunction(String id);
+
+typedef void AddSubtitlePressedFunction(String text);

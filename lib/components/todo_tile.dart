@@ -31,6 +31,8 @@ class TodoTile extends StatelessWidget {
           todo.text,
           style: todo.completed ? completedTextStyle : null,
         ),
+        subtitle: new Text(todo.subtitle,
+        style: TextStyle(fontSize: 12, color: Colors.grey),),
         onTap: () => onTap('${todo.id}'),
         trailing: Row(
           children: <Widget>[
